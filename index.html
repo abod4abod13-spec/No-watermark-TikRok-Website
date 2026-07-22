@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abood Downloader | أداة تحميل ومعاينة الفيديوهات</title>
+    <meta name="description" content="أداة عبود الاحترافية لتحميل فيديوهات المنصات بدون علامة مائية واستخراج الإحصائيات الحقيقية.">
+    <meta name="theme-color" content="#0a0f1c">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- شريط التقدم العلوي -->
+    <div id="scrollProgress"></div>
+
+    <!-- شاشة التحميل الترحيبية -->
+    <div id="splash">
+        <div class="splash-content">
+            <div class="logo-circle">⚡</div>
+            <h1>Abood Downloader</h1>
+            <p>جاري تحضير المحرك الذكي لجلب الفيديوهات...</p>
+            <div class="loading-bar">
+                <div class="loading-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- الخلفية المتحركة -->
+    <div class="background">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <button id="topBtn">⬆</button>
+
+    <!-- الهيدر -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">🚀 Abood Downloader</div>
+            <div class="nav-links">
+                <a href="#fetch-section">الرابط</a>
+                <a href="#features">المميزات</a>
+                <a href="#developer">المطور</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- واجهة الصفحة الرئيسية -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>تحميل فيديوهات TikTok بدون علامة مائية 🚀</h1>
+            <p>ضع رابط الفيديو واحصل على الإحصائيات الحقيقية المباشرة، معلومات الحساب، والروابط السريعة للتحميل.</p>
+        </div>
+    </section>
+
+    <!-- قسم إدخال الرابط -->
+    <section id="fetch-section" class="input-container">
+        <div class="input-card">
+            <h2>🔗 ضع رابط فيديو التيك توك هنا</h2>
+            <div class="search-box">
+                <input type="url" id="videoUrlInput" placeholder="https://www.tiktok.com/@username/video/..." required>
+                <button id="fetchBtn" class="btn-primary">فحص واستخراج ⚡</button>
+            </div>
+            
+            <!-- مؤشر التحميل أثناء الاتصال بالـ API -->
+            <div id="loadingStatus" class="loading-status" style="display: none;">
+                <div class="spinner"></div>
+                <p id="statusText">جاري الاتصال بـ API التيك توك وجلب البيانات الحقيقية...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم عرض نتائج الفيديو والبيانات الحقيقية -->
+    <section id="videoResult" class="result-section" style="display: none;">
+        <div class="result-card">
+            
+            <!-- بطاقة صاحب الحساب الحقيقي -->
+            <div class="profile-header">
+                <img id="authorAvatar" src="" alt="صورة صاحب الحساب">
+                <div class="profile-info">
+                    <h3 id="authorName">اسم الحساب</h3>
+                    <p id="authorHandle">@username</p>
+                </div>
+            </div>
+
+            <!-- معلومات وإحصائيات الفيديو الحقيقية -->
+            <div class="video-stats-grid">
+                <div class="vstat-box">👁️ <span id="statViews">0</span> مشاهدة</div>
+                <div class="vstat-box">❤️ <span id="statLikes">0</span> إعجاب</div>
+                <div class="vstat-box">💬 <span id="statCommentsCount">0</span> تعليق</div>
+                <div class="vstat-box">⭐ <span id="statFavorites">0</span> مفضلة</div>
+                <div class="vstat-box">🔁 <span id="statShares">0</span> مشاركة</div>
+            </div>
+
+            <!-- معاينة الفيديو والتعليقات والبيانات -->
+            <div class="media-container">
+                <div class="video-wrapper">
+                    <video id="videoPreview" controls playsinline>
+                        <source id="videoSource" src="" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                    </video>
+                </div>
+
+                <!-- صندوق التفاصيل والمعلومات المسحوبة -->
+                <div class="comments-box">
+                    <h3>📊 تفاصيل الفيديو الحقيقية:</h3>
+                    <ul id="detailsList" class="comments-list">
+                        <!-- يتم إنشاؤها عبر JavaScript -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- الأزرار الخمسة المطلوبة -->
+            <div class="actions-grid">
+                <button id="btnNoWatermark" class="action-btn btn-no-wm">
+                    ⬇️ 1. تحميل الفيديو الأصلي (بدون علامة مائية)
+                </button>
+                <button id="btn4kHdr" class="action-btn btn-hdr">
+                    ✨ 2. تحميل الفيديو بأعلى جودة متوفرة (Ultra HD)
+                </button>
+                <button id="btnCopyLink" class="action-btn btn-share">
+                    🔗 3. مشاركة الفيديو (نسخ الرابط)
+                </button>
+                <button id="btnWatermark" class="action-btn btn-wm">
+                    🏷️ 4. تحميل الفيديو الأصلي (بالعلامة المائية)
+                </button>
+                <button id="btnFindSimilar" class="action-btn btn-similar">
+                    🔍 5. العثور على فيديوهات مشابهة في المنصة
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- المميزات -->
+    <section id="features" class="features">
+        <h2 class="section-title">✨ مميزات الأداة</h2>
+        <div class="features-grid">
+            <div class="feature-box">⚡<h3>بيانات حقيقية</h3><p>اتصال مباشر مع السيرفرات لقراءة المشاهدات والإعجابات الدقيقة.</p></div>
+            <div class="feature-box">🔒<h3>بدون علامة مائية</h3><p>استخراج روابط التنزيل الصافية والمباشرة مجاناً.</p></div>
+            <div class="feature-box">🎨<h3>تصميم مظلم فخم</h3><p>واجهة متناسقة مع كافة المشاريع السابقة وبأعلى أداء.</p></div>
+        </div>
+    </section>
+
+    <!-- كرت المطور -->
+    <section id="developer" class="developer-section">
+        <h2 class="section-title">👨‍💻 المطور</h2>
+        <div class="developer-card">
+            <div class="developer-avatar">🚀</div>
+            <h3>عبدالله</h3>
+            <p>مطور تطبيقات أندرويد ومصمم مشاريع ويب تقنية حديثة.</p>
+            <div class="developer-links">
+                <div>🎮 Roblox: SAD_J82</div>
+                <div>📱 TikTok: dark4abod</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer>
+        <h2>Abood Downloader</h2>
+        <p>جميع الحقوق محفوظة © <span id="year"></span></p>
+        <p>تم تصميم وتطوير المنصة بواسطة عبدالله</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
